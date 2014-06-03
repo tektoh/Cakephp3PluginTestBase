@@ -1,7 +1,4 @@
 app/Plugin/*
-app/Config/bootstrap.php
-app/Config/database.php
-app/Config/email.php
 app/tmp/*
 !empty
 vendor/*
