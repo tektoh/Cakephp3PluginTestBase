@@ -12,7 +12,6 @@
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.webroot.css
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
@@ -399,7 +398,7 @@ form .error-message {
 }
 
 /** Notices and Errors **/
-.message {
+.message-info {
 	clear: both;
 	color: #fff;
 	font-size: 140%;
@@ -409,7 +408,7 @@ form .error-message {
 }
 
 .success,
-.message,
+.message-info,
 .cake-error,
 .cake-debug,
 .notice,
@@ -437,7 +436,7 @@ p.error,
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 .success,
-.message,
+.message-info,
 .cake-error,
 p.error,
 .error-message {

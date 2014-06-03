@@ -27,18 +27,9 @@ yum -y install ntp
 #
 # php
 #
-yum -y install php54 php54-cli php54-pdo php54-mbstring php54-mcrypt php54-pecl-memcache php54-mysql php54-devel php54-common php54-pgsql php54-pear php54-gd php54-xml php54-pecl-xdebug php54-pecl-apc
+yum -y install php54 php54-cli php54-pdo php54-mbstring php54-mcrypt php54-pecl-memcache php54-mysql php54-devel php54-common php54-pgsql php54-pear php54-gd php54-xml php54-pecl-xdebug php54-pecl-apc php54-intl
 touch /var/log/php.log && chmod 666 /var/log/php.log
 cp -a /vagrant/php.ini /etc/php.ini
-
-
-#
-# Apache
-#
-cp -a /vagrant/httpd.conf /etc/httpd/conf/
-/sbin/service httpd restart
-/sbin/chkconfig httpd on
-
 
 #
 # PostgreSQL
@@ -75,19 +66,21 @@ yum -y install mysql-community-server
 /sbin/service mysqld restart
 /sbin/chkconfig mysqld on
 
-mysql -u root -e "create database app default charset utf8"
-mysql -u root -e "create database test_app default charset utf8"
+mysql -u root -e "create database my_app default charset utf8"
+mysql -u root -e "create database test_my_app default charset utf8"
+mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'my_app'@'localhost' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 
 #
 # Composer
 #
 if [ -f /share/composer.json ]; then
   cd /share && curl -s http://getcomposer.org/installer | php
-  /usr/bin/php /share/composer.phar install --dev
-  # cakephp
-  yes | php /share/vendor/cakephp/cakephp/lib/Cake/Console/cake.php bake project app
-  cp -a /share/cake/database.php.default /share/app/Config/database.php
-  cp -a /share/cake/bootstrap.php.default /share/app/Config/bootstrap.php
-  #cp -a /share/cake/email.php.default /share/app/Config/email.php
+  yes "n" | /usr/bin/php /share/composer.phar create-project -s dev cakephp/app app
 fi
 
+#
+# Apache
+#
+cp -a /vagrant/httpd.conf /etc/httpd/conf/
+/sbin/service httpd restart
+/sbin/chkconfig httpd on
